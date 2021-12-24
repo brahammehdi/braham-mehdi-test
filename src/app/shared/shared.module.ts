@@ -7,6 +7,6 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 @NgModule({
   declarations: [ Error404Component],
   imports: [CommonModule, HttpClientModule, FlexLayoutModule, MaterialModule],
-  exports: [HttpClientModule, FlexLayoutModule, Error404Component],
+  exports: [HttpClientModule, FlexLayoutModule, Error404Component, MaterialModule],
 })
 export class SharedModule { }
