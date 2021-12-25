@@ -22,7 +22,7 @@ export class ProductsComponent implements OnInit {
     private router: Router,
     private productsService: ProductsService,
     private activatedRoute: ActivatedRoute
-    ) { }
+  ) { }
 
   ngOnInit() {
     this.getCategories();
@@ -34,14 +34,14 @@ export class ProductsComponent implements OnInit {
    * @param path: the pathe to go to
    */
   viewProduct(ProductId) {
-      this.router.navigate([ProductId, 'view'], {relativeTo: this.activatedRoute});
+    this.router.navigate([ProductId, 'view'], { relativeTo: this.activatedRoute });
   }
 
   getCategories() {
-    this.productsService.getProductsList(this.pageIndex, this.pageSize, this.sort, this.filterValue).subscribe(
+    this.productsService.getProductsList().subscribe(
       (result) => {
-        this.products = result.body;
-        this.totalItems = result.headers.get('X-Total-Count') !== null ? result.headers.get('X-Total-Count') : 0;
+        this.products = result;
+        this.totalItems = 8; // todo: replace 8 by X-TOTAL-COUNT;
       }
     );
   }
