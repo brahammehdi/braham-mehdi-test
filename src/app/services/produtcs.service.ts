@@ -14,8 +14,9 @@ export class ProductsService {
    * get all products
    * @returns observable of products list
    */
-   getProductsList() {
+   getProductsList(categoryId) {
     // to do add pagination later
+    console.log(categoryId);
     const req = `${environment.endpoints.PRODUCTS_URL}`;
     return this.httpClient.get<Product[]>(req);
   }

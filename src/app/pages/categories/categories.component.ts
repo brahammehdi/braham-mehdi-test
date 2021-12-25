@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { GetAllCategoriesAction } from 'src/app/ngrx/categories.actions';
 import { CategoriesState, CategoriesStates } from 'src/app/ngrx/categories.reducer';
-import { CategoriesService } from 'src/app/services/categories.service';
 import { Category } from 'src/app/shared/models/category';
 
 @Component({
@@ -58,9 +57,5 @@ export class CategoriesComponent implements OnInit {
   }
 
   // todo: add other function like pagination & filtring categories
-  salut() {
-    console.log(this.categoriesState$);
-    
-  }
 }
 

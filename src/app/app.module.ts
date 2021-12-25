@@ -9,11 +9,18 @@ import { LoginComponent } from './authentication/login/login.component';
 import { RegisterComponent } from './authentication/register/register.component';
 import { ForgotPasswordComponent } from './authentication/forgot-password/forgot-password.component';
 import { SharedModule } from './shared/shared.module';
-import { StoreModule } from '@ngrx/store';
+import { ActionReducerMap, StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { CategoriesReducer } from 'src/app/ngrx/categories.reducer';
 import { CategoriesEffects } from './ngrx/categories.effects';
+import { ProductsReducer } from './ngrx/products.reducer';
+import { ProductsEffects } from './ngrx/products.effects';
+
+export const reducers: ActionReducerMap<any> = {
+  categoriesState: CategoriesReducer,
+  productsState: ProductsReducer
+  };
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,8 +34,8 @@ import { CategoriesEffects } from './ngrx/categories.effects';
     AppRoutingModule,
     BrowserAnimationsModule,
     SharedModule,
-    StoreModule.forRoot({categoriesState: CategoriesReducer}),
-    EffectsModule.forRoot([CategoriesEffects]),
+    StoreModule.forRoot(reducers),
+    EffectsModule.forRoot([CategoriesEffects, ProductsEffects]),
     StoreDevtoolsModule.instrument()
     ],
   providers: [],

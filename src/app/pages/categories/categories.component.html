@@ -10,7 +10,6 @@
       </div>
     </div>
     <div class="categories-container-content">
-      <!-- todo: add condition and text if there is no data-->
       <ng-container *ngIf="categoriesState$ | async as state" [ngSwitch]="state.dataState">
         <ng-container *ngSwitchCase="CategoriesStates.LOADING">
           <p>loading ...</p>

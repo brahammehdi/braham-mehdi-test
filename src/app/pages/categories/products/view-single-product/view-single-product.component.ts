@@ -1,4 +1,11 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { State, Store } from '@ngrx/store';
+import { Observable, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { GetAllProductsAction } from 'src/app/ngrx/products.actions';
+import { ProductsState } from 'src/app/ngrx/products.reducer';
 import { Product } from 'src/app/shared/models/product';
 
 @Component({
@@ -12,7 +19,18 @@ export class ViewSingleProductComponent implements OnInit {
   selectedModelValue = '';
   selectedColorValue = '';
   quantity = 0;
-  constructor() { }
+  productId = null;
+  productSub: Subscription;
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private store: Store<any>,
+    private location: Location
+  ) {
+    this.activatedRoute.params.subscribe(params => {
+      this.productId = +params.categoryId;
+    });
+    this.store.dispatch(new GetAllProductsAction(1)); // todo get the selected category
+  }
 
   ngOnInit() {
     this.getProduct();
@@ -22,40 +40,21 @@ export class ViewSingleProductComponent implements OnInit {
    * get product data
    */
   getProduct() {
-    this.product = {
-      id: 1,
-      name: 'nike',
-      categoryId: 1,
-      description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.' +
-        'Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s',
-      oldPrice: 200,
-      price: 150,
-      discount: 10,
-      evaluation: 4.5,
-      quantity: 10,
-      commentsCount: 100,
-      colors: [
-        'black', 'red', 'white'
-      ],
-      models: [
-        'simple', 'sport+'
-      ],
-      deliveryMinDays: 10,
-      deliveryMaxDays: 20,
-      attachements: [{
-        id: 1,
-        url: 'https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/e5af7319-a671-4187-a10a-020e09e7b3db/' +
-          'air-max-2021-herenschoen-gv0Z2s.png'
-      },
-      {
-        id: 2,
-        url: 'https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/9244e1e5-8975-4438-b716-f3c9628c0921/' +
-          'air-max-270-essential-herenschoen-bRM6s9.png'
-      },
-      ],
-      creationDate: '2021-12-14T07:11:00.35694Z'
-    };
-    this.initData();
+    this.productSub = this.store.subscribe(store => {
+      if (store.productsState.products.find(product => product.id === this.productId)) {
+        this.product = store.productsState.products.find(product => product.id === this.productId);
+        this.initData();
+      } else {
+        // todo: manage the case if the product was deleted
+      }
+    });
+  }
+
+  // tslint:disable-next-line: use-life-cycle-interface
+  ngOnDestroy(): void {
+    if (this.productSub) {
+      this.productSub.unsubscribe();
+    }
   }
 
   /**

@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ProductsService } from 'src/app/services/produtcs.service';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { GetAllProductsAction } from 'src/app/ngrx/products.actions';
+import { ProductsState, ProductsStates } from 'src/app/ngrx/products.reducer';
 import { Product } from 'src/app/shared/models/product';
 
 @Component({
@@ -18,14 +22,22 @@ export class ProductsComponent implements OnInit {
   };
   filterValue = null;
   totalItems = null;
+  productsState$: Observable<ProductsState>;
+  readonly ProductStates = ProductsStates;
+  categoryId = null;
   constructor(
     private router: Router,
-    private productsService: ProductsService,
-    private activatedRoute: ActivatedRoute
-  ) { }
+    private activatedRoute: ActivatedRoute,
+    private store: Store<any>
+  ) {
+    this.activatedRoute.params.subscribe(params => {
+      this.categoryId = +params.categoryId;
+    });
+    this.store.dispatch(new GetAllProductsAction(this.categoryId)); // todo: add pagination params later
+  }
 
   ngOnInit() {
-    this.getCategories();
+    this.getProducts();
   }
 
   /**
@@ -37,13 +49,9 @@ export class ProductsComponent implements OnInit {
     this.router.navigate([ProductId, 'view'], { relativeTo: this.activatedRoute });
   }
 
-  getCategories() {
-    this.productsService.getProductsList().subscribe(
-      (result) => {
-        this.products = result;
-        this.totalItems = 8; // todo: replace 8 by X-TOTAL-COUNT;
-      }
-    );
+  getProducts() {
+    this.productsState$ = this.store.pipe(
+      map((state) => state.productsState));
   }
 
   // todo: add other function like pagination & filtring products
