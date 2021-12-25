@@ -1,3 +1,31 @@
-<p>
-  products works!
-</p>
+<div class="page-container">
+    <div class="products-container">
+      <div class="products-container-header">
+        <div class="products-search">
+          <mat-form-field appearance="outline">
+            <mat-label>Search product</mat-label>
+            <input matInput placeholder="Placeholder">
+            <mat-icon class="mat-icon" matSuffix>search</mat-icon>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="products-container-content">
+        <div class="product-item" *ngFor="let product of products" (click)="viewProduct(product.id)">
+          <mat-card class="product-card">
+            <img mat-card-image [src]="product.attachements[0].url" alt="picture"> <!--todo: add default logo if there is no img-->
+            <mat-card-content>
+              <div class="product-evaluation"> <mat-icon>star</mat-icon>{{product.evaluation}}</div>
+              <div class="product-price"><del class="old-price">{{product.price}} $</del>{{product.price}} $</div>
+              <div class="product-name">{{product.name}}</div>
+              <p>{{product.description}}</p>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+      <div class="products-container-footer">
+        <mat-paginator [length]="products.length" [pageSize]="12">
+        </mat-paginator>
+      </div>
+    </div>
+  </div>
+  
