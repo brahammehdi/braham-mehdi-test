@@ -28,7 +28,7 @@ export class CategoriesComponent implements OnInit {
   }
 
   /**
-   *
+   * navigate to the selected category
    * @param categoryId: selected category ID
    * @param path: the pathe to go to
    */
@@ -40,6 +40,9 @@ export class CategoriesComponent implements OnInit {
     }
   }
 
+  /**
+   * get all categories
+   */
   getCategories() {
     this.categoriesService.getCategoriesList(this.pageIndex, this.pageSize, this.sort, this.filterValue).subscribe(
       (result) => {

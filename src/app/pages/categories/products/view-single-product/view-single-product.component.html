@@ -51,15 +51,15 @@
         </div>
         <div>
           Models: 
-          <mat-button-toggle-group class="info-mat-toggle">
-            <mat-button-toggle value="model" *ngFor="let model of product.models"
+          <mat-button-toggle-group class="info-mat-toggle" (change)="onSelectModel($event)">
+            <mat-button-toggle [value]="model" *ngFor="let model of product.models"
              [checked]="model === product.models[0]">{{model}}</mat-button-toggle>
           </mat-button-toggle-group>
         </div>
         <div>
           Colors: 
-          <mat-button-toggle-group class="info-mat-toggle">
-            <mat-button-toggle value="bold" *ngFor="let color of product.colors"
+          <mat-button-toggle-group class="info-mat-toggle" (change)="onSelectColor($event)">
+            <mat-button-toggle [value]="color" *ngFor="let color of product.colors"
             [checked]="color === product.colors[0]">{{color}}</mat-button-toggle>
           </mat-button-toggle-group>
         </div>
@@ -67,7 +67,7 @@
           Quantity:
           <mat-form-field appearance="outline">
             <input id="quantity" type="number" matInput placeholder="Quantity" step="1" [max]="product.quantity"
-            [min]='1' value="1" (change)="onSelectQuantity($event)">
+            [min]='1' value="1" (input)="onChangeQuantity($event)">
           </mat-form-field>
         </div>
       </div>

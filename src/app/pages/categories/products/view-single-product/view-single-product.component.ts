@@ -11,7 +11,7 @@ export class ViewSingleProductComponent implements OnInit {
   selectedImgUrl = '';
   selectedModelValue = '';
   selectedColorValue = '';
-  quantity = 1;
+  quantity = 0;
   constructor() { }
 
   ngOnInit() {
@@ -19,7 +19,7 @@ export class ViewSingleProductComponent implements OnInit {
   }
 
   /**
-   * GET product data
+   * get product data
    */
   getProduct() {
     this.product = {
@@ -55,8 +55,18 @@ export class ViewSingleProductComponent implements OnInit {
       ],
       creationDate: '2021-12-14T07:11:00.35694Z'
     };
+    this.initData();
+  }
 
+  /**
+   * init purchace form group
+   */
+  initData() {
+    // todo: edit this function to init a real form group with initial values
     this.selectedImgUrl = this.product.attachements[0].url;
+    this.selectedModelValue = this.product.models[0];
+    this.selectedColorValue = this.product.colors[0];
+    this.quantity = 1;
   }
 
   /**
@@ -71,22 +81,29 @@ export class ViewSingleProductComponent implements OnInit {
    * change model selected value
    * @param value: selected model
    */
-  onSelectModel(value) {
-    this.selectedModelValue = value;
+  onSelectModel(event) {
+    this.selectedModelValue = event.value;
   }
 
   /**
    * change color selected value
    * @param value: selected color
    */
-  onSelectColor(value) {
-    this.selectedColorValue = value;
+  onSelectColor(event) {
+    this.selectedColorValue = event.value;
   }
 
-  onSelectQuantity(value) {
-    this.quantity = value;
+  /**
+   * on change quantity value
+   * @param value: quantity value
+   */
+  onChangeQuantity(event) {
+    this.quantity = Number(event.target.value);
   }
 
+  /**
+   * on validate purchace
+   */
   onAddProdct() {
     alert(`${this.quantity} ${this.product.name}, model: ${this.selectedModelValue}, color: ${this.selectedColorValue},
     added successfully to the basket`);
