@@ -1,6 +1,5 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Category } from '../shared/models/category';
 
@@ -13,21 +12,12 @@ export class CategoriesService {
   ) { }
 
   /**
-   *
-   * @param page: current categories pageIndex
-   * @param size: number of categories to get
-   * @param sort: how to sort result & with prop to sort with
-   * @returns list of categories
+   * get all categories
+   * @returns observable of categories list
    */
-  getCategoriesList(page: number, size: number, sort: {dir: string; prop: string}, filterValue?: string) {
-    const params = { page, size, sort: Object.values(sort), filterValue };
-    let queryParms = new HttpParams();
-    for (const [key, value] of Object.entries(params)) {
-      if (value + '') {
-        queryParms = queryParms.append(key, value + '');
-      }
-    }
+  getCategoriesList() {
+    // to do add pagination later
     const req = `${environment.endpoints.CATEGORIES_URL}`;
-    return this.httpClient.get<Category[]>(req, { params: queryParms, observe: 'response' });
+    return this.httpClient.get<Category[]>(req);
   }
 }

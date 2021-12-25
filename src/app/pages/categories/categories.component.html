@@ -1,29 +1,42 @@
 <div class="page-container">
-    <div class="categories-container">
-      <div class="categories-container-header">
-        <div class="categories-search">
-          <mat-form-field appearance="outline">
-            <mat-label>Search category</mat-label>
-            <input matInput placeholder="Placeholder">
-            <mat-icon class="mat-icon" matSuffix>search</mat-icon>
-          </mat-form-field>
-        </div>
+  <div class="categories-container">
+    <div class="categories-container-header">
+      <div class="categories-search">
+        <mat-form-field appearance="outline">
+          <mat-label>Search category</mat-label>
+          <input matInput placeholder="Placeholder">
+          <mat-icon class="mat-icon" matSuffix>search</mat-icon>
+        </mat-form-field>
       </div>
-      <div class="categories-container-content">
-        <!-- todo: add condition and text if there is no data-->
-        <div class="category-item" *ngFor="let category of categories" (click)="goToCategory(category.id, 'products')">
+    </div>
+    <div class="categories-container-content">
+      <ng-container *ngIf="categoriesState$ | async as state" [ngSwitch]="state.dataState">
+        <ng-container *ngSwitchCase="CategoriesStates.LOADING">
+          <p>loading ...</p>
+        </ng-container>
+        <ng-container *ngSwitchCase="CategoriesStates.INITIAL">
+          <p>No data</p>
+        </ng-container>
+        <ng-container *ngSwitchCase="CategoriesStates.ERROR">
+          <p>error: {{state.errorMessage | json}}</p>
+        </ng-container>
+        <ng-container *ngSwitchCase="CategoriesStates.LOADED">
+          <div class="category-item" *ngFor="let category of state.categories"
+          (click)="goToCategory(category.id, 'products')">
           <mat-card class="category-card">
-            <img mat-card-image [src]="category.imgSrc" alt="picture"> <!--todo: add default logo if there is no img-->
+            <img mat-card-image [src]="category.imgSrc" alt="picture">
+            <!--todo: add default logo if there is no img-->
             <mat-card-content>
               <div class="category-name">{{category.name}}</div>
             </mat-card-content>
           </mat-card>
         </div>
-      </div>
-      <div class="categories-container-footer">
-        <mat-paginator [length]="totalItems" [pageSize]="pageSize" >
-        </mat-paginator>
-      </div>
+        </ng-container>
+      </ng-container>
+    </div>
+    <div class="categories-container-footer" >
+      <mat-paginator [length]="totalItems" [pageSize]="pageSize">
+      </mat-paginator>
     </div>
   </div>
-  
+</div>

@@ -20,7 +20,7 @@ const categoriesRoutes: Routes = [
             },
             {
                 path: 'view',
-                component: ViewSingleProductComponent
+                component: ViewSingleProductComponent,
             },
         ] // add guard on product id to grant access to the product
     },

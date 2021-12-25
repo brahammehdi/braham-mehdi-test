@@ -10,17 +10,30 @@
         </div>
       </div>
       <div class="products-container-content">
-        <div class="product-item" *ngFor="let product of products" (click)="viewProduct(product.id)">
-          <mat-card class="product-card">
-            <img mat-card-image [src]="product.attachements[0].url" alt="picture"> <!--todo: add default logo if there is no img-->
-            <mat-card-content>
-              <div class="product-evaluation"> <mat-icon>star</mat-icon>{{product.evaluation}}</div>
-              <div class="product-price"><del class="old-price">{{product.price}} $</del>{{product.price}} $</div>
-              <div class="product-name">{{product.name}}</div>
-              <p>{{product.description}}</p>
-            </mat-card-content>
-          </mat-card>
-        </div>
+        <ng-container *ngIf="productsState$ | async as state" [ngSwitch]="state.dataState">
+          <ng-container *ngSwitchCase="ProductStates.LOADING">
+            <p>loading ...</p>
+          </ng-container>
+          <ng-container *ngSwitchCase="ProductStates.INITIAL">
+            <p>No data</p>
+          </ng-container>
+          <ng-container *ngSwitchCase="ProductStates.ERROR">
+            <p>error: {{state.errorMessage | json}}</p>
+          </ng-container>
+          <ng-container *ngSwitchCase="ProductStates.LOADED">
+            <div class="product-item" *ngFor="let product of state.products" (click)="viewProduct(product.id)">
+              <mat-card class="product-card">
+                <img mat-card-image [src]="product.attachements[0].url" alt="picture"> <!--todo: add default logo if there is no img-->
+                <mat-card-content>
+                  <div class="product-evaluation"> <mat-icon>star</mat-icon>{{product.evaluation}}</div>
+                  <div class="product-price"><del class="old-price">{{product.price}} $</del>{{product.price}} $</div>
+                  <div class="product-name">{{product.name}}</div>
+                  <p>{{product.description}}</p>
+                </mat-card-content>
+              </mat-card>
+            </div>
+          </ng-container>
+        </ng-container>
       </div>
       <div class="products-container-footer">
         <mat-paginator [length]="products.length" [pageSize]="12">

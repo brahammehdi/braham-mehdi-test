@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { CategoriesService } from 'src/app/services/categories.service';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { GetAllCategoriesAction } from 'src/app/ngrx/categories.actions';
+import { CategoriesState, CategoriesStates } from 'src/app/ngrx/categories.reducer';
 import { Category } from 'src/app/shared/models/category';
 
 @Component({
@@ -18,13 +22,17 @@ export class CategoriesComponent implements OnInit {
   };
   filterValue = null;
   totalItems = null;
+  categoriesState$: Observable<CategoriesState>;
+  readonly CategoriesStates = CategoriesStates;
   constructor(
     private router: Router,
-    private categoriesService: CategoriesService
-    ) { }
+    private store: Store<any>
+    ) {
+      this.store.dispatch(new GetAllCategoriesAction(null)); // todo: add pagination params later
+     }
 
   ngOnInit() {
-    this.getCategories();
+   this.getCategories();
   }
 
   /**
@@ -44,14 +52,10 @@ export class CategoriesComponent implements OnInit {
    * get all categories
    */
   getCategories() {
-    this.categoriesService.getCategoriesList(this.pageIndex, this.pageSize, this.sort, this.filterValue).subscribe(
-      (result) => {
-        this.categories = result.body;
-        this.totalItems = result.headers.get('X-Total-Count') !== null ? result.headers.get('X-Total-Count') : 0;
-      }
-    );
+    this.categoriesState$ = this.store.pipe(
+      map((state) => state.categoriesState));
   }
 
   // todo: add other function like pagination & filtring categories
-
 }
+
