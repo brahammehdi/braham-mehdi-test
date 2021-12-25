@@ -10,6 +10,7 @@
         </div>
       </div>
       <div class="categories-container-content">
+        <!-- todo: add condition and text if there is no data-->
         <div class="category-item" *ngFor="let category of categories" (click)="goToCategory(category.id, 'products')">
           <mat-card class="category-card">
             <img mat-card-image [src]="category.imgSrc" alt="picture"> <!--todo: add default logo if there is no img-->
