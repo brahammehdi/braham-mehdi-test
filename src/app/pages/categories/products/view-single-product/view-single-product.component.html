@@ -1,0 +1,81 @@
+<div class="page-container">
+  <div class="product-container">
+    <div class="product-visualser">
+      <img [src]="selectedImgUrl" alt="picture">
+    </div>
+    <div class="product-details">
+      <div class="images">
+        <div class="section-name">
+          Product images
+        </div>
+        <div class="images-content">
+          <div class="image-item" *ngFor="let image of product.attachements" (click)="onSelectImage(image.id)">
+            <img [src]="image.url" alt="picture" height="100" width="100">
+          </div>
+        </div>
+      </div>
+      <mat-divider></mat-divider>
+      <div class="product-infos">
+        <div class="section-name">
+          Product Informations
+        </div>
+        <div class="product-info-item">
+          Name: {{product.name}}
+        </div>
+        <div class="product-info-item">
+          Category: {{product.categoryId}}
+        </div>
+        <div class="product-info-item">
+          Old price: {{product.oldPrice}} $
+        </div>
+        <div class="product-info-item">
+          Price: {{product.price}} $
+        </div>
+        <div class="product-info-item">
+          Evaluation: {{product.evaluation}} <mat-icon>star</mat-icon>
+        </div>
+        <div class="product-info-item">
+          Discount: {{product.discount}} %
+        </div>
+        <div class="product-info-item">
+          Quantity: {{product.quantity}}
+        </div>
+        <div class="product-info-item">
+          Delivery: min {{product.deliveryMinDays}} days/  max {{product.deliveryMaxDays}} days
+        </div>
+      </div>
+      <mat-divider></mat-divider>
+      <div class="product-choices">
+        <div class="section-name">
+          Product images
+        </div>
+        <div>
+          Models: 
+          <mat-button-toggle-group class="info-mat-toggle">
+            <mat-button-toggle value="model" *ngFor="let model of product.models"
+             [checked]="model === product.models[0]">{{model}}</mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
+        <div>
+          Colors: 
+          <mat-button-toggle-group class="info-mat-toggle">
+            <mat-button-toggle value="bold" *ngFor="let color of product.colors"
+            [checked]="color === product.colors[0]">{{color}}</mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
+        <div>
+          Quantity:
+          <mat-form-field appearance="outline">
+            <input id="quantity" type="number" matInput placeholder="Quantity" step="1" [max]="product.quantity"
+            [min]='1' value="1" (change)="onSelectQuantity($event)">
+          </mat-form-field>
+        </div>
+      </div>
+      <mat-divider></mat-divider>
+      <div class="btns-section">
+        <button mat-raised-button color="accent" [disabled]=" !quantity >= 1" 
+        (click)="onAddProdct()">Add to the basket</button>
+      </div>
+    </div>
+  </div>
+</div>

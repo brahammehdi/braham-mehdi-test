@@ -19,20 +19,13 @@ body {
 .mat-form-field-wrapper {
     padding-bottom: 0px !important;
 }
+
 .mat-card-content{
     margin-bottom: unset !important;
-}
-
-.mat-card-actions .mat-card-footer {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    padding: 0px 15px 10px 15px; 
 }
 
 .page-container{
     display: flex;
     flex-direction: column;
     justify-content: center;
-    height: 100%;
 }

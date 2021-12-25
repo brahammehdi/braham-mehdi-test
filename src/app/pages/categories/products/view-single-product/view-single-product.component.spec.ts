@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { SingleProductFormComponent } from './single-product-form.component';
+import { ViewSingleProductComponent } from './view-single-product.component';
 
-describe('SingleProductFormComponent', () => {
-  let component: SingleProductFormComponent;
-  let fixture: ComponentFixture<SingleProductFormComponent>;
+describe('ViewSingleProductComponent', () => {
+  let component: ViewSingleProductComponent;
+  let fixture: ComponentFixture<ViewSingleProductComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SingleProductFormComponent ]
+      declarations: [ ViewSingleProductComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SingleProductFormComponent);
+    fixture = TestBed.createComponent(ViewSingleProductComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

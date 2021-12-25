@@ -1,11 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CategoriesRoutingModule } from './categories.routing.module';
-import { SingleCategorieFormComponent } from './crud-categories/single-categorie-form/single-categorie-form.component';
-import { SingleCategorieViewComponent } from './crud-categories/single-categorie-view/single-categorie-view.component';
-import { CategoriesListComponent } from './crud-categories/categories-list/categories-list.component';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { MatCardModule } from '@angular/material';
+import { CategoriesService } from 'src/app/services/categories.service';
+import { CategoriesComponent } from './categories.component';
 
 @NgModule({
   imports: [
@@ -14,9 +12,8 @@ import { MatCardModule } from '@angular/material';
     SharedModule
   ],
   declarations: [
-    SingleCategorieFormComponent,
-    SingleCategorieViewComponent,
-    CategoriesListComponent
-  ]
+    CategoriesComponent
+  ],
+  providers: [CategoriesService]
 })
 export class CategoriesModule { }
